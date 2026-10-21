@@ -255,7 +255,7 @@ export const loveStory: LoveStoryConfig = {
     "That smile of yours... I hope this little surprise gave you one. 🥹💕",
   readAgainLabel: "Read our story again",
   enableMusic: true,
-  musicPath: "/audio/romantic-music.mp3",
+  musicPath: "/audio/favsong.mp3",
   musicLabel: "Optional music",
   reducedMotionDefault: "system",
 };
