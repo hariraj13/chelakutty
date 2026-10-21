@@ -182,14 +182,50 @@ export const loveStory: LoveStoryConfig = {
     "Here's your tiny reminder: you're appreciated more than you know.",
     "One more virtual kiss for you. Mwahhh 💗",
   ],
-  scrapbookTitle: "Little moments, big feelings.",
+  scrapbookTitle: "Our little moments, forever saved. 📸",
   scrapbookPlaceholderCaptions: [
     "A little moment worth keeping.",
     "One of my favorite kinds of happiness.",
     "A memory I'd love to revisit.",
     "Just you being you.",
   ],
-  photos: [],
+  photos: [
+    {
+      src: "/images/photo1.jpg",
+      caption: "Salon day, face mask & all 😄",
+      alt: "Both of them at the salon, he has a face mask on",
+    },
+    {
+      src: "/images/photo2.jpg",
+      caption: "Those eyes say it all 💗",
+      alt: "Cute selfie together at the salon",
+    },
+    {
+      src: "/images/photo3.jpg",
+      caption: "Late night calls hit different 🌙",
+      alt: "FaceTime call screenshot, her close-up smiling",
+    },
+    {
+      src: "/images/photo4.jpg",
+      caption: "Her little kiss ❤️",
+      alt: "She's kissing him on the cheek at the cafe",
+    },
+    {
+      src: "/images/photo5.jpg",
+      caption: "My favourite people kind of moment",
+      alt: "Cosy selfie together at the cafe",
+    },
+    {
+      src: "/images/photo6.jpg",
+      caption: "That hug said everything 🫂",
+      alt: "She's smiling while being hugged from behind at the restaurant",
+    },
+    {
+      src: "/images/photo7.jpg",
+      caption: "Forehead kiss — pure love 💕",
+      alt: "He's kissing her forehead, she's smiling with eyes closed",
+    },
+  ],
   moodTitle: "A tiny mood garden",
   moodIntro:
     "Choose whatever feels closest right now. No detecting, no guessing — just a little note waiting for you.",
