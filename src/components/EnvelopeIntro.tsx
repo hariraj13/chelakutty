@@ -26,11 +26,11 @@ export function EnvelopeIntro({ reducedMotion, onComplete }: EnvelopeIntroProps)
     if (opening) return;
     setSealGlow(true);
     setOpening(true);
-    window.setTimeout(onComplete, reducedMotion ? 280 : 1400);
+    window.setTimeout(onComplete, reducedMotion ? 280 : 1600);
   }
 
-  // Pick a sweet photo to peek from the envelope
-  const peekPhoto = loveStory.photos[4] ?? null; // the cosy cafe selfie
+  // Photo shown OUTSIDE the envelope after opening
+  const peekPhoto = loveStory.photos[4] ?? null;
 
   return (
     <section className="relative min-h-dvh overflow-hidden px-5 py-10">
@@ -75,92 +75,109 @@ export function EnvelopeIntro({ reducedMotion, onComplete }: EnvelopeIntroProps)
           {loveStory.openingSubtitle}
         </motion.p>
 
-        <motion.button
-          type="button"
-          className="mt-10 cursor-pointer border-0 bg-transparent p-0"
-          onMouseEnter={() => setSealGlow(true)}
-          onMouseLeave={() => {
-            if (!opening) setSealGlow(false);
-          }}
-          onClick={openSurprise}
-          aria-label={loveStory.openingButton}
+        {/* ── ENVELOPE + PHOTO WRAPPER ── */}
+        <motion.div
+          className="relative mt-10"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.45 }}
-          whileHover={reducedMotion ? {} : { scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
         >
-          <div className="animate-floaty" style={{ perspective: 900 }}>
-            <div className="relative h-[190px] w-[260px]">
-              <div className="absolute inset-x-0 bottom-0 h-[138px] rounded-md bg-[#f3b7cb] shadow-[0_18px_40px_rgba(80,51,77,0.22)]" />
-
-              {/* Letter / photo peeking out */}
+          {/* Photo slides UP from below the envelope, fully outside */}
+          <AnimatePresence>
+            {opening && peekPhoto && (
               <motion.div
-                className="absolute left-1/2 top-[38px] z-[1] h-[120px] w-[200px] -translate-x-1/2 overflow-hidden rounded-sm shadow-md"
-                initial={{ y: 36, opacity: 0 }}
-                animate={
-                  opening
-                    ? { y: reducedMotion ? -8 : -80, opacity: 1 }
-                    : { y: 36, opacity: 0 }
-                }
+                className="absolute left-1/2 -translate-x-1/2 bottom-[130px] z-[0] w-[200px] overflow-hidden rounded-2xl shadow-2xl"
+                initial={{ y: 60, opacity: 0, scale: 0.9 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
                 transition={{
-                  duration: reducedMotion ? 0.2 : 0.75,
-                  ease: "easeOut",
-                  delay: reducedMotion ? 0 : 0.18,
+                  duration: reducedMotion ? 0.2 : 0.7,
+                  delay: reducedMotion ? 0 : 0.55,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
               >
-                {peekPhoto ? (
-                  <img
-                    src={peekPhoto.src}
-                    alt={peekPhoto.alt}
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <div className="paper-grain h-full w-full px-4 py-3 text-left">
-                    <p className="font-script text-xl text-berry">For you,</p>
-                    <p className="mt-1 text-sm text-plum/80">{loveStory.nickname}</p>
-                  </div>
-                )}
+                <img
+                  src={peekPhoto.src}
+                  alt={peekPhoto.alt}
+                  className="h-[160px] w-full object-cover"
+                />
+                <div className="bg-white px-3 py-2">
+                  <p className="font-script text-base text-plum text-center">
+                    {peekPhoto.caption}
+                  </p>
+                </div>
               </motion.div>
+            )}
+          </AnimatePresence>
 
-              {/* Envelope flap */}
-              <motion.div
-                className="absolute left-0 top-0 z-[3] h-[92px] w-full origin-top"
-                style={{
-                  clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                  background:
-                    "linear-gradient(180deg, #f7c4d4 0%, #e892b0 100%)",
-                }}
-                animate={{ rotateX: opening ? 180 : 0 }}
-                transition={{
-                  duration: reducedMotion ? 0.2 : 0.65,
-                  ease: "easeInOut",
-                }}
-              />
-              <div
-                className="absolute inset-x-0 bottom-0 z-[4] h-[138px] rounded-md"
-                style={{
-                  clipPath: "polygon(0 42%, 50% 78%, 100% 42%, 100% 100%, 0 100%)",
-                  background:
-                    "linear-gradient(180deg, #f4a6c1 0%, #e989ad 100%)",
-                }}
-              />
-              {/* Heart seal */}
-              <motion.div
-                className="absolute left-1/2 top-[100px] z-[5] grid h-12 w-12 -translate-x-1/2 place-items-center rounded-full bg-berry text-lg text-white"
-                animate={{
-                  scale: sealGlow ? 1.1 : 1,
-                  boxShadow: sealGlow
-                    ? "0 0 0 10px rgba(217,70,128,0.2), 0 0 32px rgba(217,70,128,0.5)"
-                    : "0 6px 16px rgba(80,51,77,0.2)",
-                }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                ♥
-              </motion.div>
-            </div>
-          </div>
-        </motion.button>
+          {/* Envelope — sits on top (z higher than photo) */}
+          <motion.button
+            type="button"
+            className="relative z-[10] cursor-pointer border-0 bg-transparent p-0"
+            onMouseEnter={() => setSealGlow(true)}
+            onMouseLeave={() => { if (!opening) setSealGlow(false); }}
+            onClick={openSurprise}
+            aria-label={loveStory.openingButton}
+            whileHover={reducedMotion ? {} : { scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            {/* Envelope moves UP when opening to reveal photo below */}
+            <motion.div
+              className="animate-floaty"
+              style={{ perspective: 900 }}
+              animate={opening ? { y: reducedMotion ? -10 : -120 } : { y: 0 }}
+              transition={{
+                duration: reducedMotion ? 0.2 : 0.8,
+                delay: reducedMotion ? 0 : 0.1,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <div className="relative h-[190px] w-[260px]">
+                {/* Envelope body */}
+                <div className="absolute inset-x-0 bottom-0 h-[138px] rounded-md bg-[#f3b7cb] shadow-[0_18px_40px_rgba(80,51,77,0.22)]" />
+
+                {/* Flap — opens upward */}
+                <motion.div
+                  className="absolute left-0 top-0 z-[3] h-[92px] w-full origin-top"
+                  style={{
+                    clipPath: "polygon(0 0, 100% 0, 50% 100%)",
+                    background: "linear-gradient(180deg, #f7c4d4 0%, #e892b0 100%)",
+                  }}
+                  animate={{ rotateX: opening ? 180 : 0 }}
+                  transition={{ duration: reducedMotion ? 0.2 : 0.6, ease: "easeInOut" }}
+                />
+
+                {/* Bottom flap chevron */}
+                <div
+                  className="absolute inset-x-0 bottom-0 z-[4] h-[138px] rounded-md"
+                  style={{
+                    clipPath: "polygon(0 42%, 50% 78%, 100% 42%, 100% 100%, 0 100%)",
+                    background: "linear-gradient(180deg, #f4a6c1 0%, #e989ad 100%)",
+                  }}
+                />
+
+                {/* Heart seal — hides after opening */}
+                <AnimatePresence>
+                  {!opening && (
+                    <motion.div
+                      exit={{ scale: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-1/2 top-[100px] z-[5] grid h-12 w-12 -translate-x-1/2 place-items-center rounded-full bg-berry text-lg text-white"
+                      animate={{
+                        scale: sealGlow ? 1.1 : 1,
+                        boxShadow: sealGlow
+                          ? "0 0 0 10px rgba(217,70,128,0.2), 0 0 32px rgba(217,70,128,0.5)"
+                          : "0 6px 16px rgba(80,51,77,0.2)",
+                      }}
+                    >
+                      ♥
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          </motion.button>
+        </motion.div>
 
         <motion.button
           type="button"
@@ -187,12 +204,8 @@ export function EnvelopeIntro({ reducedMotion, onComplete }: EnvelopeIntroProps)
               {["♥", "✦", "♥", "❀", "♥"].map((s, i) => (
                 <motion.span
                   key={i}
-                  animate={{ y: [0, -16, 0], opacity: [0.7, 1, 0] }}
-                  transition={{
-                    duration: 1.2,
-                    delay: i * 0.12,
-                    ease: "easeOut",
-                  }}
+                  animate={{ y: [0, -20, 0], opacity: [0.8, 1, 0] }}
+                  transition={{ duration: 1.3, delay: i * 0.12, ease: "easeOut" }}
                 >
                   {s}
                 </motion.span>
