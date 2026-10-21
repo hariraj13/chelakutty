@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", "Palatino Linotype", Palatino, serif;
+  --font-sans: "Nunito", "Segoe UI", sans-serif;
+  --font-script: "Caveat", "Segoe Script", cursive;
+  --color-blush: #ffd6e7;
+  --color-rose: #f4a6c1;
+  --color-lavender: #e6dfff;
+  --color-cream: #fff9f5;
+  --color-plum: #50334d;
+  --color-berry: #d94680;
+  --color-peach: #ffe4d6;
+  --color-ink: #50334d;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--color-plum);
+  background: var(--color-cream);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #f4a6c1;
+  color: #50334d;
+}
+
+:focus-visible {
+  outline: 3px solid #d94680;
+  outline-offset: 3px;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+.paper-grain {
+  background-image:
+    radial-gradient(rgba(80, 51, 77, 0.035) 0.6px, transparent 0.6px),
+    linear-gradient(180deg, #fffdfb 0%, #fff4ea 100%);
+  background-size: 7px 7px, 100% 100%;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(12px, -18px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translate3d(0, -10%, 0) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(var(--drift, 40px), 110vh, 0) rotate(220deg);
+    opacity: 0;
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(217, 70, 128, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 24px 8px rgba(217, 70, 128, 0.18);
+  }
+}
+
+@keyframes heart-pop {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-twinkle {
+  animation: twinkle 2.8s ease-in-out infinite;
+}
+
+.animate-floaty {
+  animation: floaty 4.5s ease-in-out infinite;
+}
+
+.animate-drift {
+  animation: drift 9s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow-pulse 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-twinkle,
+  .animate-floaty,
+  .animate-drift,
+  .animate-glow {
+    animation: none;
+  }
+}
